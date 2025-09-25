@@ -1,0 +1,52 @@
+#!/bin/bash
+
+echo "IFCONFIG"
+echo "listando todas as interfaces ativas"
+ifconfig
+sleep 1
+
+echo "listando todas as interfaces ativas e inativas"
+ifconfig -a
+sleep 1
+
+echo "atribuindo IP temporário a interface eth0"
+echo "sudo ifconfig eth0 192.168.1.50 netmask 255.255.255.0"
+sudo ifconfig eth0 192.168.1.50 netmask 255.255.255.0
+sleep 1
+
+echo "reiniciando a interface eth0 down e up"
+echo "sudo ifconfig eth0 down"
+sudo ifconfig eth0 down
+sleep 1
+echo "sudo ifconfig eth0 up"
+sudo ifconfig eth0 up
+sleep 1
+
+echo "ROUTE"
+echo "mostrando a tabela de roteamento"
+route -n
+sleep 1
+
+echo "adicionando uma rota de rede 10.0.0.0/24 via gateway 192.168.1.1"
+echo "sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 192.168.1.1"
+sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 192.168.1.1
+sleep 1
+
+echo "removendo a rota adicionada"
+echo "sudo route del -net 10.0.0.0 netmask 255.255.255.0"
+sudo route del -net 10.0.0.0 netmask 255.255.255.0
+sleep 1
+
+echo "NETSTAT"
+echo "listando todas as conexões TCP UDP e portas"
+netstat -tuln
+sleep 1
+
+echo "mostrando estatísticas por protocolo"
+netstat -s
+sleep 1
+
+echo "mostrando tabelas de roteamento alternativa ao route"
+netstat -rn
+sleep 1
+

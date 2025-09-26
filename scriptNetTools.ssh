@@ -1,52 +1,44 @@
 #!/bin/bash
+# Script interativo para configurar rede com net-tools
 
-echo "IFCONFIG"
-echo "listando todas as interfaces ativas"
-ifconfig
-sleep 1
+echo "==== Configuração de Rede (net-tools) ===="
 
-echo "listando todas as interfaces ativas e inativas"
-ifconfig -a
-sleep 1
+# Mostrar interfaces disponíveis
+echo "Interfaces de rede detectadas:"
+ifconfig -a | grep -o "^[a-z0-9]*"
+echo "--------------------------------------"
 
-echo "atribuindo IP temporário a interface eth0"
-echo "sudo ifconfig eth0 192.168.1.50 netmask 255.255.255.0"
-sudo ifconfig eth0 192.168.1.50 netmask 255.255.255.0
-sleep 1
+# Perguntar interface
+read -p "Digite o nome da interface (ex: enp0s3): " IFACE
 
-echo "reiniciando a interface eth0 down e up"
-echo "sudo ifconfig eth0 down"
-sudo ifconfig eth0 down
-sleep 1
-echo "sudo ifconfig eth0 up"
-sudo ifconfig eth0 up
-sleep 1
+# Perguntar IP e máscara
+read -p "Digite o endereço IP (ex: 192.168.22.106): " IP
+read -p "Digite a máscara de rede (ex: 255.255.255.128): " NETMASK
 
-echo "ROUTE"
-echo "mostrando a tabela de roteamento"
-route -n
-sleep 1
+# Perguntar gateway
+read -p "Digite o gateway (ex: 192.168.22.126): " GATEWAY
 
-echo "adicionando uma rota de rede 10.0.0.0/24 via gateway 192.168.1.1"
-echo "sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 192.168.1.1"
-sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 192.168.1.1
-sleep 1
+# Perguntar DNS
+read -p "Digite o DNS primário (ex: 8.8.8.8): " DNS1
+read -p "Digite o DNS secundário (ex: 8.8.4.4): " DNS2
 
-echo "removendo a rota adicionada"
-echo "sudo route del -net 10.0.0.0 netmask 255.255.255.0"
-sudo route del -net 10.0.0.0 netmask 255.255.255.0
-sleep 1
+echo "--------------------------------------"
+echo "Aplicando configurações..."
 
-echo "NETSTAT"
-echo "listando todas as conexões TCP UDP e portas"
-netstat -tuln
-sleep 1
+# Derrubar interface
+sudo ifconfig $IFACE down
 
-echo "mostrando estatísticas por protocolo"
-netstat -s
-sleep 1
+# Configurar IP e máscara
+sudo ifconfig $IFACE $IP netmask $NETMASK up
 
-echo "mostrando tabelas de roteamento alternativa ao route"
-netstat -rn
-sleep 1
+# Adicionar rota padrão
+route add default gw $GATEWAY $IFACE
 
+# Configurar DNS
+echo "nameserver $DNS1" > /etc/resolv.conf
+echo "nameserver $DNS2" >> /etc/resolv.conf
+
+echo "--------------------------------------"
+echo "Configuração aplicada com sucesso!"
+echo "Testando conectividade com ping no $DNS1 ..."
+ping -c 4 $DNS1

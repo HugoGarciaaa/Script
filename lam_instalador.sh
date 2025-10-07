@@ -1,15 +1,11 @@
 #!/bin/bash
 
-# ===============================
-# Funções de Instalação + Testes
-# ===============================
-
 install_linux_tools() {
     echo "[+] Instalando utilitários Linux..."
     sudo apt update && sudo apt upgrade -y
     sudo apt install -y curl wget git unzip software-properties-common
     echo "[+] Testando comandos..."
-    which curl && which git && which unzip && echo "✅ Ferramentas básicas OK" || echo "❌ Erro nos utilitários"
+    which curl && which git && which unzip && echo " Ferramentas básicas OK" || echo " Erro nos utilitários"
 }
 
 install_apache() {
@@ -20,9 +16,9 @@ install_apache() {
 
     echo "[+] Testando Apache..."
     if curl -s http://localhost | grep -q "Apache"; then
-        echo "✅ Apache está funcionando!"
+        echo "Apache está funcionando!"
     else
-        echo "❌ Apache pode não estar funcionando corretamente."
+        echo "Apache pode não estar funcionando corretamente."
     fi
 }
 
@@ -35,9 +31,9 @@ install_mariadb() {
 
     echo "[+] Testando MariaDB..."
     if sudo mysql -u root -e "SHOW DATABASES;" > /dev/null 2>&1; then
-        echo "✅ Conectado ao MariaDB com sucesso!"
+        echo " Conectado ao MariaDB com sucesso!"
     else
-        echo "❌ Falha ao conectar ao MariaDB."
+        echo " Falha ao conectar ao MariaDB."
     fi
 }
 
@@ -50,9 +46,9 @@ install_mysql() {
 
     echo "[+] Testando MySQL..."
     if sudo mysql -u root -e "SHOW DATABASES;" > /dev/null 2>&1; then
-        echo "✅ Conectado ao MySQL com sucesso!"
+        echo " Conectado ao MySQL com sucesso!"
     else
-        echo "❌ Falha ao conectar ao MySQL."
+        echo " Falha ao conectar ao MySQL."
     fi
 }
 
@@ -63,13 +59,13 @@ install_php() {
 
     echo "[+] Criando página de teste PHP..."
     echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php > /dev/null
-    echo "<?php echo '✅ Hello, World from PHP!'; ?>" | sudo tee /var/www/html/hello.php > /dev/null
+    echo "<?php echo ' Hello, World from PHP!'; ?>" | sudo tee /var/www/html/hello.php > /dev/null
 
     echo "[+] Testando PHP info..."
     if curl -s http://localhost/info.php | grep -q "phpinfo"; then
-        echo "✅ PHP está funcionando via Apache (info.php)"
+        echo " PHP está funcionando via Apache (info.php)"
     else
-        echo "❌ PHP pode não estar funcionando corretamente."
+        echo " PHP pode não estar funcionando corretamente."
     fi
 }
 
@@ -78,13 +74,13 @@ install_python() {
     sudo apt install -y python3 python3-pip
 
     echo "[+] Criando script Hello World em Python..."
-    echo "print('✅ Hello, World from Python!')" > hello.py
+    echo "print(' Hello, World from Python!')" > hello.py
 
     echo "[+] Executando script Python..."
     if python3 hello.py | grep -q "Hello, World"; then
-        echo "✅ Hello World em Python executado com sucesso!"
+        echo " Hello World em Python executado com sucesso!"
     else
-        echo "❌ Erro ao executar o script Python."
+        echo " Erro ao executar o script Python."
     fi
 
     echo "[+] Versões:"
@@ -99,7 +95,7 @@ install_openjdk() {
     cat <<EOF > HelloWorld.java
 public class HelloWorld {
     public static void main(String[] args) {
-        System.out.println("✅ Hello, World from Java!");
+        System.out.println(" Corinthians melhor time!");
     }
 }
 EOF
@@ -109,9 +105,6 @@ EOF
     java -version && javac -version
 }
 
-# ===============================
-# Funções de DESINSTALAÇÃO
-# ===============================
 
 uninstall_apache() {
     echo "[–] Desinstalando Apache..."
@@ -119,7 +112,7 @@ uninstall_apache() {
     sudo apt remove --purge -y apache2 apache2-utils apache2-bin apache2.2-common
     sudo apt autoremove -y
     sudo rm -rf /var/www/html/info.php /var/www/html/hello.php
-    echo "✅ Apache removido com sucesso!"
+    echo " Apache removido com sucesso!"
 }
 
 uninstall_mariadb() {
@@ -128,7 +121,7 @@ uninstall_mariadb() {
     sudo apt remove --purge -y mariadb-server mariadb-client
     sudo apt autoremove -y
     sudo rm -rf /var/lib/mysql /etc/mysql
-    echo "✅ MariaDB removido com sucesso!"
+    echo " MariaDB removido com sucesso!"
 }
 
 uninstall_mysql() {
@@ -137,7 +130,7 @@ uninstall_mysql() {
     sudo apt remove --purge -y mysql-server mysql-client mysql-common
     sudo apt autoremove -y
     sudo rm -rf /var/lib/mysql /etc/mysql
-    echo "✅ MySQL removido com sucesso!"
+    echo " MySQL removido com sucesso!"
 }
 
 uninstall_php() {
@@ -145,7 +138,7 @@ uninstall_php() {
     sudo apt remove --purge -y php libapache2-mod-php php-mysql php-cli php-curl php-gd php-mbstring php-xml php-zip
     sudo apt autoremove -y
     sudo rm -rf /var/www/html/info.php /var/www/html/hello.php
-    echo "✅ PHP removido com sucesso!"
+    echo " PHP removido com sucesso!"
 }
 
 uninstall_python() {
@@ -153,7 +146,7 @@ uninstall_python() {
     sudo apt remove --purge -y python3 python3-pip
     sudo apt autoremove -y
     rm -f hello.py
-    echo "✅ Python removido com sucesso!"
+    echo " Python removido com sucesso!"
 }
 
 uninstall_openjdk() {
@@ -161,12 +154,8 @@ uninstall_openjdk() {
     sudo apt remove --purge -y openjdk-17-jdk openjdk-17-jre
     sudo apt autoremove -y
     rm -f HelloWorld.java HelloWorld.class
-    echo "✅ OpenJDK removido com sucesso!"
+    echo " OpenJDK removido com sucesso!"
 }
-
-# ===============================
-# Menu Principal
-# ===============================
 
 lamp_menu() {
     while true; do
@@ -220,9 +209,6 @@ lamp_menu() {
     done
 }
 
-# ===============================
-# Menu de Desinstalação
-# ===============================
 
 uninstall_menu() {
     while true; do

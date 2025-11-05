@@ -1,6 +1,5 @@
 #!/bin/bash
 # Script de gerenciamento do ProFTPD e FileZilla
-# Autor: Hugo (exemplo)
 # Uso: ./scriptftpd.sh
 
 # Função principal do menu

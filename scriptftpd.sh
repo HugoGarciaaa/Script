@@ -12,8 +12,8 @@ menu() {
     echo "6) Configurar arquivo produto"
     echo "7) Instalar FileZilla"
     echo "8) Remover FileZilla"
-    echo "9) Sair"
-    echo "10) Reiniciar ProFTPD"
+    echo "9) Reiniciar ProFTPD"
+    echo "10) Sair"
     echo "===================================="
     echo -n "Escolha uma opção: "
     read opcao
@@ -27,8 +27,8 @@ menu() {
         6) config_proftpd ;;
         7) install_filezilla ;;
         8) remove_filezilla ;;
-        9) echo "Saindo..."; exit 0 ;;
-        10) Restart_proftpd ;;
+        9) Restart_proftpd ;;
+        10) echo "Saindo..."; exit 0 ;;
         *) echo "Opção inválida!"; sleep 1; menu ;;
     esac
 }

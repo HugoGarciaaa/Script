@@ -53,9 +53,9 @@ stop_proftpd() {
 test_proftpd() {
     echo "Verificando status do ProFTPD..."
     if systemctl is-active --quiet proftpd; then
-        echo "✅ O ProFTPD está rodando!"
+        echo " O ProFTPD está rodando!"
     else
-        echo "❌ O ProFTPD não está rodando!"
+        echo " O ProFTPD não está rodando!"
     fi
     read -p "Pressione Enter para voltar ao menu..."
     menu
@@ -90,7 +90,7 @@ config_proftpd() {
         sudo cp /etc/proftpd/proftpd.conf /etc/proftpd/produto.conf
         echo "Arquivo padrão copiado novamente para /etc/proftpd/produto.conf"
     else
-        echo "⚠️ O arquivo padrão /etc/proftpd/proftpd.conf não foi encontrado!"
+        echo "O arquivo padrão /etc/proftpd/proftpd.conf não foi encontrado!"
     fi
     read -p "Pressione Enter para voltar ao menu..."
     menu
